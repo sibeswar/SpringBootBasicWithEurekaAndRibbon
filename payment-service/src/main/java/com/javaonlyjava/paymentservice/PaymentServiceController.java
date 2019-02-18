@@ -44,10 +44,13 @@ public class PaymentServiceController {
 	    paymentServiceResponseBean.setItemTotalPrice(itemTotalPrice);
 	    BigDecimal itemTaxPercentage=response.getTaxPercentage();
 	    paymentServiceResponseBean.setTaxPercentage(itemTaxPercentage);
-	    BigDecimal itemTotalPriceWithTax=(itemTotalPrice.multiply(itemTaxPercentage));
-	    paymentServiceResponseBean.setItemTotalPriceWithTax(itemTotalPriceWithTax);
-	    paymentServiceResponseBean.setPort(response.getPort());
+	    /** Item price calculation with tax*/
+	    BigDecimal hundred = new BigDecimal(100);
+	    BigDecimal percentageFactor =itemTaxPercentage.divide(hundred,2, BigDecimal.ROUND_HALF_UP);
+	    BigDecimal taxAmount  = itemTotalPrice.multiply(percentageFactor);
+	    paymentServiceResponseBean.setItemTotalPriceWithTax(itemTotalPrice.add(taxAmount));
 	    
+	    paymentServiceResponseBean.setPort(response.getPort());
 	    return paymentServiceResponseBean;
 	    
 	  }
@@ -66,8 +69,13 @@ public class PaymentServiceController {
 	    paymentServiceResponseBean.setItemTotalPrice(itemTotalPrice);
 	    BigDecimal itemTaxPercentage=response.getTaxPercentage();
 	    paymentServiceResponseBean.setTaxPercentage(itemTaxPercentage);
-	    BigDecimal itemTotalPriceWithTax=(itemTotalPrice.multiply(itemTaxPercentage));
-	    paymentServiceResponseBean.setItemTotalPriceWithTax(itemTotalPriceWithTax);
+	    
+	    /** Item price calculation with tax*/
+	    BigDecimal hundred = new BigDecimal(100);
+	    BigDecimal percentageFactor =itemTaxPercentage.divide(hundred,2, BigDecimal.ROUND_HALF_UP);
+	    BigDecimal taxAmount  = itemTotalPrice.multiply(percentageFactor);
+	    paymentServiceResponseBean.setItemTotalPriceWithTax(itemTotalPrice.add(taxAmount));
+	    
 	    paymentServiceResponseBean.setPort(response.getPort());
 	    
 	    return paymentServiceResponseBean;
